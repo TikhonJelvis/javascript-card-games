@@ -2,7 +2,9 @@
  * A game of Klondike Solitaire.
  */
 function Solitaire() {
-    var board = new Board("Klondike");
+    var board = new Board({
+		rootId: "Klondike"
+	});
 
     var totalDeck = new Deck(collapsedType, 0, 0);
     totalDeck.initialize();
