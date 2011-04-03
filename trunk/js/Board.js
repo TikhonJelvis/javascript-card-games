@@ -67,14 +67,19 @@ function Board(options) {
 		div.droppable({ 
 			accept : function(el) {
 				var cards=getCards(el[0]);
-				return deck.getFilter()(cards[0],getDeck(el[0]),cards[0].length);
+				return deck.getFilter()(cards[cards.length-1],getDeck(el[0]),cards.length);
 			},
 			drop : function(event, ui) {
 				var srcDeck=event.srcElement.parentElement;
 				var cards=getCards(srcDeck);
-				for(var i=0;i<cards.length;i++) {
-					getDeck(srcDeck).remove(cards[i]);
-					deck.addTop(cards[i]);
+				for(var i=cards.length-1;i>=0;i--) {
+					try {
+						console.log(cards[i]);
+						getDeck(srcDeck).remove(cards[i]);
+						deck.addTop(cards[i]);
+					} catch(e) {
+						continue;
+					}
 				}
 				reDrawDeck([getDeck(srcDeck), div]);
 				reDrawDeck([deck, $(event.target)]);
@@ -115,13 +120,13 @@ function Board(options) {
 	
 	function getCards(element) {
 		var cards=[];
-		cards.push(getCard(element));
 		var children=$(element).children(".card");
 		if(children) {
 			for(var i = 0; i < children.length; i++) {
 				cards.push(getCard(children[i]));
 			}
 		}
+		cards.push(getCard(element));
 		return cards;
 	}
 	
@@ -154,12 +159,12 @@ function Board(options) {
 				var holder = $("<div>");
 				cardHash[appendString+counter]=[deck,card];
 				holder.attr("id", appendString+(counter++));
-				holder.css("z-index",i);
+				holder.css("z-index",i+deck.getzOffset());
 				if(card.isFaceUp()&&deck.isDraggable()) {
 					holder.draggable({ 
 						revert : "invalid",
 						start : function(event, ui) {
-							holder.css("z-index","99");
+							holder.css("z-index",99+deck.getzOffset());
 							for(var j = 0; j < stack.length; j++) {
 								stack[j][1].detach();
 								holder.append(stack[j][1]);
@@ -167,7 +172,7 @@ function Board(options) {
 						},
 						stop : function(event, ui) {
 							var srcDeck=event.srcElement.parentElement;
-							holder.css("z-index",i);
+							holder.css("z-index",i+deck.getzOffset());
 							reDrawDeck([getDeck(srcDeck),div]);
 						}
 					});

@@ -45,7 +45,7 @@ function Solitaire() {
         pile.setFilter((function (pile) {
              return function (card) {
                  var top = pile.peek();
-
+				 
                 if (top) {
                     return (top.getColor() != card.getColor()) &&
                         top.getRank() - card.getRank() ==1;
@@ -90,3 +90,6 @@ function Solitaire() {
         })(endPiles[i]));
     }
 }
+$(document).ready(function() {
+	new Solitaire();
+});
