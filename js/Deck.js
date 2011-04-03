@@ -3,15 +3,21 @@
  * along with all the other things you would expect of a deck of cards. The deck
  * takes a type as an argument.
  */
-function Deck(type, x, y) {
-    var filter = function (card) {
+function Deck(type, x, y, options) {
+    options = options || {};
+
+    var filter = options.filter || function (card) {
         return true;
     };// Limits which cards can be added to the top of the deck.
     var cards = [];
 
     var observers = [];// The observers observing this deck!
-    var draggable = true;// They're draggable by default.
-    var action = null;// The action associated with this deck.
+    if (options.draggable === false) {
+        var draggable = false;
+    } else {
+        draggable = true;
+    }
+    var action = options.action || null;// The action associated with this deck.
     var paused = false;// When this is paused, it does not send out any events.
 
     /**

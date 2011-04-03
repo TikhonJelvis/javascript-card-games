@@ -7,15 +7,16 @@ function Solitaire() {
         magicalX : 106
     });
 
-    var totalDeck = new Deck(board.collapsedType, 0, 0);
+    var totalDeck = new Deck(board.collapsedType, 0, 0, {
+        filter : function () { return false; },
+        draggable : false
+    });
+    totalDeck.initialize(true);
     
     var discard = new Deck(board.collapsedType, 1, 0);
     board.addDeck(discard);
     
-    totalDeck.setFilter(function () { return false; });
-    totalDeck.initialize(true);
     totalDeck.shuffle();
-    totalDeck.setDraggable(false);
     totalDeck.setAction(function () {
         var top = totalDeck.peek();
 
