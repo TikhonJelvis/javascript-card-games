@@ -52,7 +52,7 @@ function Card(rank, suit) {
 				return "Q";
 			case 13:
 				return "K";
-			case 14:
+			case 1:
 				return "A";
 			default:
 				return rank;
