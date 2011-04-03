@@ -17,8 +17,7 @@ function Solitaire() {
     totalDeck.shuffle();
     totalDeck.setDraggable(false);
     totalDeck.setAction(function () {
-        console.log("Total Deck Action!");
-        /*var top = totalDeck.peek();
+        var top = totalDeck.peek();
 
         if (!top) {
             discard.deal(totalDeck, discard.getCards().length, true);
@@ -26,7 +25,7 @@ function Solitaire() {
             top.setFaceUp(true);
             totalDeck.remove(top);
             discard.addTop(top);
-        }*/
+        }
     });
     board.addDeck(totalDeck);
 
