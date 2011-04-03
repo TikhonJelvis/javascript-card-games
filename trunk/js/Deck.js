@@ -24,6 +24,13 @@ function Deck(cards) {
     };
 
     /**
+     * Returns the number of cards in the deck.
+     */
+    this.getSize = function () {
+        return cards.length;
+    };
+
+    /**
      * Adds the given card to the top of the deck.
      */
     this.addTop = function (card) {
