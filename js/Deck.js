@@ -23,6 +23,8 @@ function Deck(type, x, y, options,zOffset) {
 	this.getzOffset=function()  {
 		return zOffset||0;
 	};
+
+    var active = active || false;
 	
     /**
      * Pauses the deck, causing it to not send any more events out.
@@ -96,6 +98,11 @@ function Deck(type, x, y, options,zOffset) {
             }
             bottom ? deck.addBottom(card) : deck.addTop(card);
         }
+
+        deck.unpause();
+        deck.fire({
+            type : "add"
+        });
 
         deck.setFilter(filter);
     };
@@ -355,5 +362,13 @@ function Deck(type, x, y, options,zOffset) {
                 return;
             }
         }
+    };
+
+    /**
+     * Returns whether this is the "active" hand--that is, whether it is the
+     * human player's hand.
+     */
+    this.isActive = function () {
+        return active;
     };
 }
