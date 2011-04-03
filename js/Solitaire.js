@@ -4,13 +4,13 @@
 function Solitaire() {
     var board = new Board("Klondike");
 
-    var totalDeck = new Deck(collapseType, 0, 0);
+    var totalDeck = new Deck(collapsedType, 0, 0);
     totalDeck.initialize();
     totalDeck.shuffle();
     board.addDeck(totalDeck);
 
     var pile;
-    var discard = new Deck(collapseType, 1, 0);
+    var discard = new Deck(collapsedType, 1, 0);
     board.addDeck(discard);
     var endPiles = [];
     
@@ -22,7 +22,7 @@ function Solitaire() {
     }
     
     for (i = 0; i < 4; i++) {
-        endPiles[i] = new Deck(collapseType, 4 + i, 0);
+        endPiles[i] = new Deck(collapsedType, 4 + i, 0);
         board.addDeck(endPiles[i]);
     }
 }
