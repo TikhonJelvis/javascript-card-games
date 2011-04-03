@@ -5,6 +5,7 @@
     width : 73px;
     height : 102px;
     background : url('../images/spacer.gif');
+    background-repeat : no-repeat;
 }
 
 .card {
