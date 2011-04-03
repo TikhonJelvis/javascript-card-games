@@ -41,7 +41,13 @@ function Board(options) {
 		return [0,0];
 	};
 	this.horizontalType = function(deck) {
-		
+		//the offset for hands is proportional to the size of the hand
+		var minOverlapX = __CARD_WIDTH / 2;
+		var maxOverlapX = ((__HAND_WIDTH - __CARD_WIDTH) / deck.getSize());
+		var overlapX = (minOverlapX < maxOverlapX) ? minOverlapX : maxOverlapX;
+		var offsetX = overlapX;
+		var offsetY = 0;
+		return [offsetX, offsetY];
 	};
 	
 	//PRIVATE FUNCTIONS
@@ -183,8 +189,8 @@ function Board(options) {
 			})(soFar.concat(),i);
 			soFar.push([cards[i],newDiv]);
 		}
-		div.css("width",((cards.length-1)*offsetX)+__CARD_WIDTH);
-		div.css("height",((cards.length-1)*offsetY)+__CARD_HEIGHT);
+		div.css("width",((cards.length)*offsetX)+__CARD_WIDTH);
+		div.css("height",((cards.length)*offsetY)+__CARD_HEIGHT);
 		return div;
 	}
 	
