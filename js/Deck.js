@@ -371,4 +371,11 @@ function Deck(type, x, y, options,zOffset) {
     this.isActive = function () {
         return active;
     };
+
+    /**
+     * Sets whether this deck is the "active" hand.
+     */
+    this.setActive = function (flag) {
+        active = flag;
+    };
 }
