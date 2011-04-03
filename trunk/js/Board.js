@@ -138,6 +138,9 @@ function Board(rootId) {
 		return decks.push([deck, createDeck(deck)]);
 	};
 	
+	this.getDecks = function() {
+		return decks;
+	};
 }
 function defaultType(deck) {
 	var isHand = isNaN(deck.getX());
