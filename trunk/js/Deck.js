@@ -62,6 +62,13 @@ function Deck(cards) {
     };
 
     /**
+     * Returns all of the cards currently in the deck.
+     */
+    this.getCards = function () {
+        return cards;
+    };
+
+    /**
      * Replaces all of the cards in the deck with the standard 52 cards.
      */
     this.initialize = function () {
