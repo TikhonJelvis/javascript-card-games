@@ -19,9 +19,11 @@ function Deck(type, x, y) {
 
         while (cards.length > 0) {
             var index = Math.floor(Math.random() * cards.length);
-            newCards.push(index);
+            newCards.push(cards[index]);
             cards.splice(index, 1);
         }
+
+        cards = newCards;
 
         this.fire({
             type : "shuffle",
@@ -34,7 +36,7 @@ function Deck(type, x, y) {
      * less than n cards in this deck, deals as many as possible. This can
      * optionally deal the cards face down.
      */
-    this.deal = function (deck, n, faceup) {
+    this.deal = function (deck, n, facedown) {
         if (!n) {
             return;
         }

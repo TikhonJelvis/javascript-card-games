@@ -17,7 +17,7 @@ function Solitaire() {
     for (var i = 1; i <= 7; i++) {
         pile = new Deck(defaultType, i - 1, 1);
         totalDeck.deal(pile, i, true);
-        totalDeck.peek().setFaceUp(true);
+        pile.peek().setFaceUp(true);
         board.addDeck(pile);
     }
     
@@ -25,4 +25,6 @@ function Solitaire() {
         endPiles[i] = new Deck(collapsedType, 4 + i, 0);
         board.addDeck(endPiles[i]);
     }
+
+    console.log(board);
 }
