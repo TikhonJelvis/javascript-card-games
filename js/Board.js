@@ -11,7 +11,7 @@ var __HAND_WIDTH = 500;
 function Board(rootId) {
 
 	//PRIVATE INSTANCE VARIABLES
-	var root=$(rootId);
+	var root=$("#"+rootId);
 	root.addClass("board");
 	var decks = new Array();
 	var appendString = "cardHolder";
