@@ -175,6 +175,13 @@ function Deck(type) {
     };
 
     /**
+     * Returns this deck's current filter.
+     */
+    this.getFilter = function () {
+        return filter;
+    };
+
+    /**
      * Sets the filter to a new function. The filter function should take a card
      * and return true if the given card can be added to the top and false
      * otherwise.
