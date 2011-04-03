@@ -55,13 +55,16 @@ function Board(options) {
 		var div = $("<div>");
 		div.droppable({ 
 			accept : function(el) {
-				return deck.getFilter()(getCard(el[0]));
+				var cards=getCards(el[0]);
+				return deck.getFilter()(cards[0],getDeck(el[0]),cards[0].length);
 			},
 			drop : function(event, ui) {
 				var srcDeck=event.srcElement.parentElement;
-				var card=getCard(srcDeck);
-				getDeck(srcDeck).remove(card);
-				deck.addTop(card);
+				var cards=getCards(srcDeck);
+				for(var i=0;i<cards.length;i++) {
+					getDeck(srcDeck).remove(cards[i]);
+					deck.addTop(cards[i]);
+				}
 				reDrawDeck([getDeck(srcDeck), div]);
 				reDrawDeck([deck, $(event.target)]);
 			}
@@ -99,6 +102,18 @@ function Board(options) {
 		return cardHash[element.id][1];
 	}
 	
+	function getCards(element) {
+		var cards=[];
+		cards.push(getCard(element));
+		var children=$(element).children(".card");
+		if(children) {
+			for(var i = 0; i < children.length; i++) {
+				cards.push(getCard(children[i]));
+			}
+		}
+		return cards;
+	}
+	
 	function getDeck(element) {
 		return cardHash[element.id][0];
 	}
@@ -116,20 +131,26 @@ function Board(options) {
 		var offsetX=offsets[0];
 		var offsetY=offsets[1];
 		var cards = deck.getCards();
-		for(var i = 0; i < cards.length; i++) {
-			(function () {
+		var soFar=new Array();
+		for(var i = cards.length - 1; i >= 0; i--) {
+			var newDiv=(function (stack,i) {
 				var card = cards[i];
 				var holder = $("<div>");
 				cardHash[appendString+counter]=[deck,card];
 				holder.attr("id", appendString+(counter++));
+				holder.css("z-index",i);
 				if(card.isFaceUp()) {
 					holder.draggable({ 
 						revert : "invalid",
 						start : function(event, ui) {
-							holder.css("z-index","500");
+							holder.css("z-index","99");
+							for(var j = 0; j < stack.length; j++) {
+								stack[j][1].detach();
+								holder.append(stack[j][1]);
+							}
 						},
 						stop : function(event, ui) {
-							holder.css("z-index","0");
+							holder.css("z-index",i);
 						}
 					});
 				}
@@ -146,7 +167,9 @@ function Board(options) {
 				img.css("opacity", __DECK_OPACITY);
 				holder.append(img);
 				div.append(holder);
-			})();
+				return holder;
+			})(soFar.concat(),i);
+			soFar.push([cards[i],newDiv]);
 		}
 		div.css("width",((cards.length-1)*offsetX)+__CARD_WIDTH);
 		div.css("height",((cards.length-1)*offsetY)+__CARD_HEIGHT);
