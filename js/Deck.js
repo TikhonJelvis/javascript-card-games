@@ -9,6 +9,7 @@ function Deck(cards) {
     var filter = function (card) {
         return true;
     };// Limits which cards can be added to the top of the deck.
+    var type;// The type of deck this is. This is only important for the UI.
 
     var observers = [];// The observers observing this deck!
 
@@ -52,26 +53,40 @@ function Deck(cards) {
     };
 
     /**
-     * Adds the given card to the top of the deck.
+     * Adds the given card to the top of the deck. Returns true if the card was
+     * added and false otherwise.
      */
     this.addTop = function (card) {
-        cards.push(card);
+        if (filter(card)) {
+            cards.push(card);
 
-        this.fire({
-            type : "add",
-            card : card
-        });
+            this.fire({
+                type : "add",
+                card : card
+            });
+
+            return true;
+        } else {
+            return false;
+        } 
     };
 
     /**
      * Adds the given card to the bottom of the deck.
      */
     this.addBottom = function (card) {
-        cards.unshift(card);
-        this.fire({
-            type : "add",
-            card : card
-        });
+        if (filter(card)) {
+            cards.unshift(card);
+
+            this.fire({
+                type : "add",
+                card : card
+            });
+
+            return true;
+        } else {
+            return false;
+        } 
     };
 
     /**
@@ -167,6 +182,22 @@ function Deck(cards) {
      */
     this.setFilter = function (newFilter) {
         filter = newFilter;
+    };
+
+    /**
+     * Returns what type of deck this is. The type is information for the UI
+     * regarding how to treat the deck; it does not affect gameplay.
+     */
+    this.getType = function () {
+        return type;
+    };
+
+    /**
+     * Sets what type of deck this is. The type is information for the UI
+     * regarding how to treat the deck; it does not affect gameplay.
+     */
+    this.setType = function (newType) {
+        type = newType;
     };
 
     /**
