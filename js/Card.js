@@ -3,7 +3,11 @@
 * A card has an immutable rank and suit
 */
 function Card(rank, suit) {
+    
+        //PRIVATE FIELDS
 
+        var isFaceUp = true;
+    
 	//PUBLIC FUNCTIONS
 	
 	/**
@@ -13,6 +17,20 @@ function Card(rank, suit) {
 	this.getSuit = function () {
 		return suit;
 	};
+
+        /**
+        * Returns whether the card is face up or not.
+        */
+        this.isFaceUp = function () {
+                return isFaceUp;
+        };
+
+        /**
+        * Sets whether the card is face up--true means it is.
+        */
+        this.setFaceUp = function (flag) {
+            isFaceUp = flag;
+        };
 	
 	/**
 	* rank getter method
