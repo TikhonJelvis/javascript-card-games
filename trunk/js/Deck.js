@@ -1,15 +1,13 @@
 /**
  * Represents a deck of cards. You can add cards to the deck and take them away,
- * along with all the other things you would expect of a deck of cards. You can
- * pass in an array of cards for the deck to have initially.
+ * along with all the other things you would expect of a deck of cards. The deck
+ * takes a type as an argument.
  */
-function Deck(cards) {
-    cards = cards || [];// Stores all of the cards in the deck.
+function Deck(type) {
     var x, y;// The position of this deck on the playing board.
     var filter = function (card) {
         return true;
     };// Limits which cards can be added to the top of the deck.
-    var type;// The type of deck this is. This is only important for the UI.
 
     var observers = [];// The observers observing this deck!
 
