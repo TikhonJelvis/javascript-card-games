@@ -91,7 +91,7 @@ function Board(options) {
 			}
 		});
 		div.addClass(isHand ? "hand" : "deck");
-		if(isHand&&deck.isActive) {
+		if(isHand&&deck.isActive()) {
 			handHolder.append(div);
 		} else if(!isHand) {
 			root.append(div);
