@@ -3,10 +3,15 @@
  * along with all the other things you would expect of a deck of cards. The deck
  * takes a type as an argument.
  */
+<<<<<<< .mine
+function Deck(type, x, y, zOffset) {
+    var filter = function (card) {
+=======
 function Deck(type, x, y, options) {
     options = options || {};
 
     var filter = options.filter || function (card) {
+>>>>>>> .r69
         return true;
     };// Limits which cards can be added to the top of the deck.
     var cards = [];
@@ -20,6 +25,10 @@ function Deck(type, x, y, options) {
     var action = options.action || null;// The action associated with this deck.
     var paused = false;// When this is paused, it does not send out any events.
 
+	this.getzOffset=function()  {
+		return zOffset||0;
+	};
+	
     /**
      * Pauses the deck, causing it to not send any more events out.
      */
@@ -61,8 +70,10 @@ function Deck(type, x, y, options) {
      * cannot be added to by other methods. If bottom is true, deals to the
      * bottom of the target deck rather than the top.
      */
-    this.deal = function (deck, n, facedown, bottom) {
-        this.pause();
+    this.deal = function (deck, n, facedown, bottom, nonPausing) {
+		if(!nonPausing) {
+			this.pause();
+		}
         var filter = deck.getFilter();
         deck.setFilter(function () {
             return true;
@@ -78,7 +89,7 @@ function Deck(type, x, y, options) {
                 break;
             }
 
-            if (i == n - 1) {
+            if (i == n - 1&&!nonPausing) {
                 this.unpause();
             }
 
@@ -120,7 +131,7 @@ function Deck(type, x, y, options) {
      * added and false otherwise.
      */
     this.addTop = function (card, nofilter) {
-        if (filter(card)) {
+        if (nofilter||filter(card)) {
             cards.push(card);
 
             this.fire({
@@ -138,7 +149,7 @@ function Deck(type, x, y, options) {
      * Adds the given card to the bottom of the deck.
      */
     this.addBottom = function (card) {
-        if (filter(card)) {
+        if (card!=undefined&&(filter(card))) {
             cards.unshift(card);
 
             this.fire({
