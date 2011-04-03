@@ -1,0 +1,11 @@
+/* CSS Document */
+
+.card {
+    position : relative;
+    width : 73px;
+    height : 102px;
+}
+
+.board {
+    background : url('../images/background.gif');
+}
