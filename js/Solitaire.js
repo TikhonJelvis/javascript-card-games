@@ -55,5 +55,15 @@ function Solitaire() {
     for (i = 0; i < 4; i++) {
         endPiles[i] = new Deck(board.collapsedType, 3 + i, 0);
         board.addDeck(endPiles[i]);
+        endPiles[i].setFilter((function (top) {
+            return function (card) {
+                if (top) {
+                    return (top.getSuit() == card.getSuit()) &&
+                        (card.getRank() - top.getRank() == 1);
+                } else {
+                    return card.getRank() == 1;
+                }
+            };
+        })(endPiles[i].peek()));
     }
 }
