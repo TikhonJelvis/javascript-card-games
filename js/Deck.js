@@ -89,12 +89,16 @@ function Deck(type) {
     };
 
     /**
-     * Removes the top card of the deck and returns it; if the deck is empty,
-     * returns undefined.
+     * Removes the given card from the deck. If the card is not in the deck,
+     * nothing happens. 
      */
-    this.removeTop = function () {
-        var card = cards.pop();
-
+    this.remove = function (card) {
+        for (var i = 0; i < cards.length; i++) {
+            if (cards[i] == card) {
+                cards.splice(i, 1);
+            }
+        }
+        
         this.fire({
             type : "remove",
             card : card
