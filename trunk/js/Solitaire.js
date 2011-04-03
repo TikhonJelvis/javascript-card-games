@@ -8,6 +8,7 @@ function Solitaire() {
     });
 
     var totalDeck = new Deck(board.collapsedType, 0, 0);
+    totalDeck.setFilter(function () { return false; });
     totalDeck.initialize();
     totalDeck.shuffle();
     board.addDeck(totalDeck);
@@ -23,14 +24,31 @@ function Solitaire() {
 
         var topCard = pile.peek();
         topCard.setFaceUp(true);
-        pile.setFilter(function (card) {
-            if (topCard) {
-                return (card.getColor() != topCard.getColor()) &&
-                    (topCard.getSuit() - card.getSuit()) == 1;
-            } else {
-                return card.getRank() == 13;
-            }
-        });
+
+        pile.setFilter((function (pile) {
+             return function (card) {
+                 var top = pile.peek();
+
+                if (top) {
+                    return (top.getColor() != card.getColor()) &&
+                        top.getRank() - card.getRank() ==1;
+                } else {
+                    return card.getRank() == 13;
+                }
+            };
+        })(pile));
+
+        // Flip the top card if needed:
+        pile.observe((function (pile) {
+            return function (event) {
+                if (event.type == "remove") {
+                    if (pile.peek()) {
+                        pile.peek().setFaceUp(true);
+                    }
+                }
+            };
+        })(pile));
+        
         board.addDeck(pile);
     }
     
