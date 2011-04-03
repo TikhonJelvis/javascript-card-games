@@ -6,28 +6,36 @@ function Card(rank, suit) {
 
 	//PRIVATE INSTANCE VARIABLES
 	
-	//(x,y) relative position of this card
-	var relativePosition=[0,0];
+	/**
+	* (x,y) relative position of this card
+	*/
+	var relativePosition = [0, 0];
 	
 	
 	
 	//PUBLIC FUNCTIONS
 	
-	//suit getter method
-	//returns String suit
+	/**
+	* suit getter method
+	* returns String suit
+	*/
 	this.getSuit = function () {
 		return suit;
 	};
 	
-	//rank getter method
-	//returns int rank
+	/**
+	* rank getter method
+	* returns int rank
+	*/
 	this.getRank = function () {
 		return rank;
 	};
 	
-	//rank getter method
-	//returns String rank
-	this.getRankAsString=function() {
+	/**
+	* rank getter method
+	* returns String rank
+	*/
+	this.getRankAsString = function () {
 		switch(rank) {
 			case 11:
 				return "J";
@@ -42,29 +50,37 @@ function Card(rank, suit) {
 		}
 	};
 	
-	//relative x position getter method
-	//returns int xPos
+	/**
+	* relative x position getter method
+	* returns int xPos
+	*/
 	this.getX = function () {
 		return relativePosition[0];
 	};
 	
-	//relative y position getter method
-	//returns int yPos
+	/**
+	* relative y position getter method
+	* returns int yPos
+	*/
 	this.getY = function () {
 		return relativePosition[1];
 	};
 	
-	//relative x position setter method
-	//param int xPos
-	//return int xPos
+	/**
+	* relative x position setter method
+	* param int xPos
+	* return int xPos
+	*/
 	this.setX = function (x) {
-		return relativePosition[0]=x;
+		return relativePosition[0] = x;
 	};
 	
-	//relative y position setter method
-	//param int yPos
-	//return int yPos
+	/**
+	* relative y position setter method
+	* param int yPos
+	* return int yPos
+	*/
 	this.setY = function (y) {
-		return relativePosition[1]=y;
+		return relativePosition[1] = y;
 	};
 }
