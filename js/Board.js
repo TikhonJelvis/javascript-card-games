@@ -157,7 +157,9 @@ function Board(options) {
 							}
 						},
 						stop : function(event, ui) {
+							var srcDeck=event.srcElement.parentElement;
 							holder.css("z-index",i);
+							reDrawDeck([getDeck(srcDeck),div]);
 						}
 					});
 				}
