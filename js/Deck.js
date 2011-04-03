@@ -8,6 +8,7 @@ function Deck(type) {
     var filter = function (card) {
         return true;
     };// Limits which cards can be added to the top of the deck.
+    var cards = [];
 
     var observers = [];// The observers observing this deck!
 
