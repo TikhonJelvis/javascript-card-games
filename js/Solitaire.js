@@ -9,8 +9,19 @@ function Solitaire() {
 
     var totalDeck = new Deck(board.collapsedType, 0, 0);
     totalDeck.setFilter(function () { return false; });
-    totalDeck.initialize();
+    totalDeck.initialize(true);
     totalDeck.shuffle();
+    totalDeck.setDraggable(false);
+    totalDeck.setAction(function () {
+        var top = totalDeck.peek();
+
+        if (!top) {
+            discard.deal(totalDeck, discard.getCards().length, true);
+        } else {
+            top.setFaceUp(true);
+            totalDeck.deal(discard, 1);
+        }
+    });
     board.addDeck(totalDeck);
 
     var pile;
