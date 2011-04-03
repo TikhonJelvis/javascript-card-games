@@ -52,6 +52,8 @@ function Deck(type, x, y) {
             this.remove(card);
             if (facedown) {
                 card.setFaceUp(false);
+            } else if (facedown === false) {
+                card.setFaceUp(true);
             }
             deck.addTop(card);
         }
