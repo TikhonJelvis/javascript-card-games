@@ -2,7 +2,8 @@ function Board(options) {
 
 	//PRIVATE INSTANCE VARIABLES
 	options = options || {};
-	var __MY_ROOT = options.rootId || "#BoardRoot";
+	var __MY_ROOT = options.rootId || "BoardRoot";
+	var __HAND_HOLDER = options.handId || "HandRoot";
 	var __DECK_OPACITY = options.cardOpacity || .9;
 	var __EXTENSION_TYPE = options.extensionType || "gif";
 	var __IMAGES_DIRECTORY = options.imagesDirectory || "images/";
@@ -13,6 +14,8 @@ function Board(options) {
 	var __MAGICAL_UNIT_Y = options.magicalY || 220;
 	var __HAND_WIDTH = options.handWidth || 500;
 	var __MULTI_DRAG = (options.multiDrag===false) ? false : true;
+	var handHolder=$("#"+handHolder);
+	handHolder.addClass("bord");
 	var root=$("#"+__MY_ROOT);
 	root.addClass("board");
 	var decks = new Array();
@@ -63,6 +66,7 @@ function Board(options) {
 			}
 			return null;
 		});
+		var isHand = isNaN(deck.getX());
 		//add ui
 		var div = $("<div>");
 		div.droppable({ 
@@ -86,9 +90,12 @@ function Board(options) {
 				reDrawDeck([deck, $(event.target)]);
 			}
 		});
-		var isHand = isNaN(deck.getX());
 		div.addClass(isHand ? "hand" : "deck");
-		root.append(div);
+		if(isHand&&deck.isActive) {
+			handHolder.append(div);
+		} else if(!isHand) {
+			root.append(div);
+		}
 		return reDrawDeck([deck, div]);
 	}
 	
