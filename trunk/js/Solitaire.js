@@ -8,25 +8,29 @@ function Solitaire() {
     });
 
     var totalDeck = new Deck(board.collapsedType, 0, 0);
+    
+    var discard = new Deck(board.collapsedType, 1, 0);
+    board.addDeck(discard);
+    
     totalDeck.setFilter(function () { return false; });
     totalDeck.initialize(true);
     totalDeck.shuffle();
     totalDeck.setDraggable(false);
     totalDeck.setAction(function () {
-        var top = totalDeck.peek();
+        console.log("Total Deck Action!");
+        /*var top = totalDeck.peek();
 
         if (!top) {
             discard.deal(totalDeck, discard.getCards().length, true);
         } else {
             top.setFaceUp(true);
-            totalDeck.deal(discard, 1);
-        }
+            totalDeck.remove(top);
+            discard.addTop(top);
+        }*/
     });
     board.addDeck(totalDeck);
 
     var pile;
-    var discard = new Deck(board.collapsedType, 1, 0);
-    board.addDeck(discard);
     var endPiles = [];
     
     for (var i = 1; i <= 7; i++) {
@@ -34,7 +38,9 @@ function Solitaire() {
         totalDeck.deal(pile, i, true);
 
         var topCard = pile.peek();
-        topCard.setFaceUp(true);
+        if (topCard) {
+            topCard.setFaceUp(true);
+        }
 
         pile.setFilter((function (pile) {
              return function (card) {
