@@ -1,15 +1,14 @@
 /* CSS Document */
 
 .deck {
-    position : relative;
+    position : absolute;
     width : 73px;
     height : 102px;
     background : url('../images/spacer.gif');
-    display : inline;
 }
 
 .card {
-    position : absolute;
+	position : absolute;
     width : 73px;
     height : 102px;
 }
