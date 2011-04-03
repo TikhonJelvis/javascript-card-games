@@ -3,15 +3,10 @@
  * along with all the other things you would expect of a deck of cards. The deck
  * takes a type as an argument.
  */
-<<<<<<< .mine
-function Deck(type, x, y, zOffset) {
-    var filter = function (card) {
-=======
-function Deck(type, x, y, options) {
+function Deck(type, x, y, options,zOffset) {
     options = options || {};
 
     var filter = options.filter || function (card) {
->>>>>>> .r69
         return true;
     };// Limits which cards can be added to the top of the deck.
     var cards = [];
