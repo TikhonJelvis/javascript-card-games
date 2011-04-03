@@ -19,6 +19,14 @@ function Card(rank, suit) {
 	};
 
         /**
+         * Returns "r" if the card is red (hearts or diamonds) and "s"
+         * otherwise.
+         */
+        this.getColor = function () {
+                return (suit == "h" || suit == "d") ? "r" : "s";
+        };
+
+        /**
         * Returns whether the card is face up or not.
         */
         this.isFaceUp = function () {
