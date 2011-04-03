@@ -151,7 +151,7 @@ function Deck(type, x, y) {
     /**
      * Replaces all of the cards in the deck with the standard 52 cards.
      */
-    this.initialize = function () {
+    this.initialize = function (facedown) {
         cards = [];
 
         for (var i = 1; i <= 13; i++) {
@@ -165,6 +165,12 @@ function Deck(type, x, y) {
             type : "reset",
             card : null
         });
+
+        if (facedown) {
+            for (i = 0; i < cards.length; i++) {
+                cards[i].setFaceUp(false);
+            }
+        }
     };
 
     /**
@@ -215,8 +221,8 @@ function Deck(type, x, y) {
     /**
      * Sets the filter to a new function. The filter function should take a card
      * and return true if the given card can be added to the top and false
-     * otherwise. The filter function can also optionally take a deck as the
-     * second argument.
+     * otherwise. The filter then also takes the deck the drag came from and the
+     * size of the pile being dragged.
      */
     this.setFilter = function (newFilter) {
         filter = newFilter;
