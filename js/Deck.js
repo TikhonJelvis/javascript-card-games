@@ -12,7 +12,22 @@ function Deck(type, x, y) {
     var observers = [];// The observers observing this deck!
     var draggable = true;// They're draggable by default.
     var action = null;// The action associated with this deck.
+    var paused = false;// When this is paused, it does not send out any events.
 
+    /**
+     * Pauses the deck, causing it to not send any more events out.
+     */
+    this.pause = function () {
+        paused = true;
+    };
+
+    /**
+     * Unpauses the deck, causing it to send events out once more.
+     */
+    this.unpause = function () {
+        paused = false;
+    };
+    
     /**
      * Shuffles the deck.
      */
@@ -36,9 +51,17 @@ function Deck(type, x, y) {
     /**
      * Moves the top n cards from this deck to the specified deck. If there are
      * less than n cards in this deck, deals as many as possible. This can
-     * optionally deal the cards face down.
+     * optionally deal the cards face down. You can deal even to a deck that
+     * cannot be added to by other methods. If bottom is true, deals to the
+     * bottom of the target deck rather than the top.
      */
-    this.deal = function (deck, n, facedown) {
+    this.deal = function (deck, n, facedown, bottom) {
+        this.pause();
+        var filter = deck.getFilter();
+        deck.setFilter(function () {
+            return true;
+        });
+        
         if (!n) {
             return;
         }
@@ -49,14 +72,20 @@ function Deck(type, x, y) {
                 break;
             }
 
+            if (i == n - 1) {
+                this.unpause();
+            }
+
             this.remove(card);
             if (facedown) {
                 card.setFaceUp(false);
             } else if (facedown === false) {
                 card.setFaceUp(true);
             }
-            deck.addTop(card);
+            bottom ? deck.addBottom(card) : deck.addTop(card);
         }
+
+        deck.setFilter(filter);
     };
 
     /**
@@ -84,7 +113,7 @@ function Deck(type, x, y) {
      * Adds the given card to the top of the deck. Returns true if the card was
      * added and false otherwise.
      */
-    this.addTop = function (card) {
+    this.addTop = function (card, nofilter) {
         if (filter(card)) {
             cards.push(card);
 
@@ -282,12 +311,14 @@ function Deck(type, x, y) {
      * than one card changed, it should have an array of cards.
      */
     this.fire = function (event) {
-        for (var i = 0; i < observers.length; i++) {
-            try {
-                observers[i](event);
-            } catch (e) {
-                // Remove the offending observer from the observers list:
-                observers.splice(i, 1);
+        if (!paused) {
+            for (var i = 0; i < observers.length; i++) {
+                try {
+                    observers[i](event);
+                } catch (e) {
+                    // Remove the offending observer from the observers list:
+                    observers.splice(i, 1);
+                }
             }
         }
     };
