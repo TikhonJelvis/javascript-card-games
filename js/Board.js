@@ -23,7 +23,7 @@ function Board(options) {
 	
 	//PUBLIC TYPE PROPERTIES
 	
-	this.defaultType=function(deck) {
+	this.defaultType = function(deck) {
 		var isHand = isNaN(deck.getX());
 		//the offset for hands is proportional to the size of the hand
 		var minOverlapX = __CARD_WIDTH / 2;
@@ -35,10 +35,13 @@ function Board(options) {
 		var maxOverlap = ((__DECK_HEIGHT - __CARD_HEIGHT) / deck.getSize());
 		var overlap = (minOverlap < maxOverlap) ? minOverlap : maxOverlap;
 		var offsetY = isHand ? 0 : overlap;
-		return [offsetX,offsetY];
+		return [offsetX, offsetY];
 	};
-	this.collapsedType=function(deck) {
+	this.collapsedType = function(deck) {
 		return [0,0];
+	};
+	this.horizontalType = function(deck) {
+		
 	};
 	
 	//PRIVATE FUNCTIONS
@@ -123,7 +126,7 @@ function Board(options) {
 	function reDrawDeck(deckArr) {
 		var deck = deckArr[0];
 		var div = deckArr[1];
-		div.attr("onclick", deck.getAction());
+		div[0].onclick=deck.getAction();
 		maxX = deck.getX() > maxX ? deck.getX() : maxX;
 		maxY = deck.getY() > maxY ? deck.getY() : maxY;
 		root.css("width",((maxX+1)*__MAGICAL_UNIT_X)+"px");
