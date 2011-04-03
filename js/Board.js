@@ -12,6 +12,7 @@ function Board(options) {
 	var __MAGICAL_UNIT_X = options.magicalX || 150;
 	var __MAGICAL_UNIT_Y = options.magicalY || 220;
 	var __HAND_WIDTH = options.handWidth || 500;
+	var __MULTI_DRAG = (options.multiDrag===false) ? false : true;
 	var root=$("#"+__MY_ROOT);
 	root.addClass("board");
 	var decks = new Array();
@@ -120,10 +121,12 @@ function Board(options) {
 	
 	function getCards(element) {
 		var cards=[];
+		if(__MULTI_DRAG) {
 		var children=$(element).children(".card");
-		if(children) {
-			for(var i = 0; i < children.length; i++) {
-				cards.push(getCard(children[i]));
+			if(children) {
+				for(var i = 0; i < children.length; i++) {
+					cards.push(getCard(children[i]));
+				}
 			}
 		}
 		cards.push(getCard(element));
@@ -165,9 +168,11 @@ function Board(options) {
 						revert : "invalid",
 						start : function(event, ui) {
 							holder.css("z-index",99+deck.getzOffset());
-							for(var j = 0; j < stack.length; j++) {
-								stack[j][1].detach();
-								holder.append(stack[j][1]);
+							if(__MULTI_DRAG) {
+								for(var j = 0; j < stack.length; j++) {
+									stack[j][1].detach();
+									holder.append(stack[j][1]);
+								}
 							}
 						},
 						stop : function(event, ui) {
