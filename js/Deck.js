@@ -10,6 +10,8 @@ function Deck(cards) {
         return true;
     };// Limits which cards can be added to the top of the deck.
 
+    var observers = [];// The observers observing this deck!
+
     /**
      * Shuffles the deck.
      */
@@ -110,5 +112,43 @@ function Deck(cards) {
      */
     this.setFilter = function (newFilter) {
         filter = newFilter;
+    };
+
+    /**
+     * Fires the given event by passing it to every observer. The event should
+     * have a type like "remove" or "add" and the card that changed. If more
+     * than one card changed, it should have an array of cards.
+     */
+    this.fire = function (event) {
+        for (var i = 0; i < observers.length; i++) {
+            try {
+                observers[i](event);
+            } catch (e) {
+                // Remove the offending observer from the observers list:
+                observers.splice(i, 1);
+            }
+        }
+    };
+
+    /**
+     * Adds an observer to the game. The observer should be a function accepting
+     * an event that will be called every time there is a change to the game.
+     */
+    this.observe = function (observer) {
+        observers.push(observer);
+    };
+
+    /**
+     * Removes an occurence of the specified observer from the observers list.
+     * If the given observer is in the list twice, only the first instance is
+     * removed. If the given observer is not in the list, nothing happens.
+     */
+    this.removeObserver = function (observer) {
+        for (var i = 0; i < observers.length; i++) {
+            if (observers[i] == observer) {
+                observers.splice(i, 1);
+                return;
+            }
+        }
     };
 }
