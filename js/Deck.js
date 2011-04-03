@@ -3,8 +3,7 @@
  * along with all the other things you would expect of a deck of cards. The deck
  * takes a type as an argument.
  */
-function Deck(type) {
-    var x, y;// The position of this deck on the playing board.
+function Deck(type, x, y) {
     var filter = function (card) {
         return true;
     };// Limits which cards can be added to the top of the deck.
@@ -28,6 +27,30 @@ function Deck(type) {
             type : "shuffle",
             card : null
         });
+    };
+
+    /**
+     * Moves the top n cards from this deck to the specified deck. If there are
+     * less than n cards in this deck, deals as many as possible. This can
+     * optionally deal the cards face down.
+     */
+    this.deal = function (deck, n, faceup) {
+        if (!n) {
+            return;
+        }
+
+        for (var i = 0; i < n; i++) {
+            var card = this.peek();
+            if (!this.peek()) {
+                break;
+            }
+
+            this.remove(card);
+            if (facedown) {
+                card.setFaceUp(false);
+            }
+            deck.addTop(card);
+        }
     };
 
     /**
