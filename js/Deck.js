@@ -10,6 +10,8 @@ function Deck(type, x, y) {
     var cards = [];
 
     var observers = [];// The observers observing this deck!
+    var draggable = true;// They're draggable by default.
+    var action = null;// The action associated with this deck.
 
     /**
      * Shuffles the deck.
@@ -213,12 +215,43 @@ function Deck(type, x, y) {
     /**
      * Sets the filter to a new function. The filter function should take a card
      * and return true if the given card can be added to the top and false
-     * otherwise.
+     * otherwise. The filter function can also optionally take a deck as the
+     * second argument.
      */
     this.setFilter = function (newFilter) {
         filter = newFilter;
     };
 
+    /**
+     * Returns the action associated with this deck. The action is something
+     * that should be done when it is click, for example. If there is no action,
+     * null is returned.
+     */
+    this.getAction = function () {
+        return action;
+    };
+
+    /**
+     * Sets the action associated with this deck.
+     */
+    this.setAction = function (newAction) {
+        action = newAction;
+    };
+
+    /**
+     * Returns whether the cards from this pile should be draggable.
+     */
+    this.isDraggable = function () {
+        return draggable;
+    };
+
+    /**
+     * Sets whether the cards from this pile should be draggable.
+     */
+    this.setDraggable = function (flag) {
+        draggable = flag;
+    };
+    
     /**
      * Returns what type of deck this is. The type is information for the UI
      * regarding how to treat the deck; it does not affect gameplay.
