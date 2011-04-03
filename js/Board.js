@@ -29,6 +29,10 @@ function Board(game) {
 		var deck = deckArr[0];
 		var div = deckArr[1];
 		var isHand = isNaN(deck.getX());
+		if(!isHand) {
+			div.css("left", deck.getX()*__MAGICAL_UNIT_X);
+			div.css("top", deck.getY()*__MAGICAL_UNIT_Y);
+		}
 		//the offset for hands is proportional to the size of the hand
 		var offsetX = isHand ? ((__HAND_WIDTH - __CARD_WIDTH) / deck.getSize()) : 0;
 		//the offset for decks is proportional to the size of the deck
