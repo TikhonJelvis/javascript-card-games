@@ -5,6 +5,7 @@
  */
 function Deck(cards) {
     cards = cards || [];// Stores all of the cards in the deck.
+    var x, y;
 
     /**
      * Shuffles the deck.
@@ -53,5 +54,35 @@ function Deck(cards) {
             cards.push(new Card(i, "d"));
             cards.push(new Card(i, "c"));
         }
+    };
+
+    /**
+     * Returns the x position of this deck in magical card units. If there is no
+     * position, returns undefined.
+     */
+    this.getX = function () {
+        return x;
+    };
+
+    /**
+     * Returns the y position of this deck in magical card units. If there is no
+     * position, returns undefined.
+     */
+    this.getY = function () {
+        return y;
+    };
+
+    /**
+     * Sets the x position of this deck in magical card units.
+     */
+    this.setX = function (newX) {
+        x = newX;
+    };
+
+    /**
+     * Sets the y position of this deck in magical card units.
+     */
+    this.setY = function (newY) {
+        Y = newY;
     };
 }
