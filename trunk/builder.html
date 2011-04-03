@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<script type='text/javascript' language='javascript'>
+			var decks=new Array();
+			function Deck() {
+				this.container=document.createElement("form");
+				this.append=function() {
+					this.container.style.border="2px solid black";
+					this.container.innerHTML="X: <input type='text' name='x' value='1'/><br/>Y: <input type='text' name='y' value='"+decks.length+"'/><br/>"+
+						"Draggable: <input type='checkbox' checked='true' name='draggable'/><br/>Face Down: <input type='checkbox' name='faceDown'/><br/>Observe (function of e): <textarea name='observe'></textarea><br/>"+
+						"Number of Cards to Deal: <input type='text' name='numCards' value='10'/><br/>"+
+						"Filter (function of card): <textarea name='filter'></textarea><br/>setAction (function): <textarea name='setAction'></textarea><br/>";
+					document.getElementById('holder').appendChild(this.container);
+				};
+			}
+			function addDeck() {
+				var deck=new Deck();
+				deck.append();
+				decks.push(deck);
+			}
+			function updateCode() {
+				var code="<link rel='StyleSheet' href='css/cards.css' type='text/css'/>"+
+				"<link rel='StyleSheet' href='css/jquery-ui-1.8.11.custom.css' type='text/css'/>"+
+				"<script src='js/jquery-1.5.2.min.js' type='text/javascript' language='javascript'><\/script>"+
+				"<script src='js/jquery-ui-1.8.11.custom.min.js' type='text/javascript' language='javascript'><\/script>";
+				code+="<script src='js/Card.js' type='text/javascript' language='javascript'><\/script>"+
+				"<script src='js/Hand.js' type='text/javascript' language='javascript'><\/script>"+
+				"<script src='js/Deck.js' type='text/javascript' language='javascript'><\/script>"+
+				"<script src='js/Board.js' type='text/javascript' language='javascript'><\/script>";
+				code+="<script type='text/javascript' language='javascript'>\n";
+				code+="function generatedCode() {\n";
+				code+="var options={\n";
+				code+="\tcardOpacity : "+document.getElementById('cardOpacity').value+",\n";
+				code+="\tcardWidth : "+document.getElementById('cardWidth').value+",\n";
+				code+="\thandWidth : "+document.getElementById('handWidth').value+",\n";
+				code+="\tcardHeight : "+document.getElementById('cardHeight').value+",\n";
+				code+="\tdeckHeight : "+document.getElementById('deckHeight').value+",\n";
+				code+="\tmagicalX : "+document.getElementById('magicalX').value+",\n";
+				code+="\tmagicalY : "+document.getElementById('magicalY').value+" };\n";
+				code+="\tvar board=new Board(options);\n";
+				code+="\tvar mainDeck=new Deck();\n";
+				code+="\tfor(var i=0;i<"+document.getElementById('numDecks').value+";i++) {\n";
+				code+="\t\tvar d=new Deck();\n";
+				code+="\t\td.initialize();\n";
+				code+="\t\td.deal(mainDeck,52,true);\n";
+				code+="\t}\n";
+				code+="\tmainDeck.shuffle();\n";
+				for(var i=0;i<decks.length;i++) {
+					code+="\tvar decks"+i+"=new Deck(board.collapsedType,"+decks[i].container.x.value+","+decks[i].container.y.value+",{ draggable : "+decks[i].container.draggable.checked+" });\n";
+					code+="\tdecks"+i+".observe("+(decks[i].container.observe.value||"function(e) { }")+");\n";
+					code+="\tdecks"+i+".setFilter("+(decks[i].container.filter.value||"function(card) { return true; }")+");\n";
+					code+="\tdecks"+i+".setAction("+(decks[i].container.setAction.value||"function() { }")+");\n";
+					code+="\tmainDeck.deal(decks"+i+","+decks[i].container.numCards.value+","+decks[i].container.faceDown.checked+");\n";
+					code+="\tboard.addDeck(decks"+i+");";
+				}
+				code+="}\n";
+				code+="$(document).ready(generatedCode);\n";
+				code+="<\/script>";
+				document.getElementById('code').value="<html><head>"+code+"</head><body><div id='BoardRoot'><\/div><\/body><\/html>";
+			}
+		</script>
+	</head>
+	<body>
+		<input type='button' value='Add Deck' onClick='addDeck()'/><br/>
+		<input type='button' value='Update Code' onClick='updateCode()'/><br/>
+		<textarea id='code' rows=10 columns=100></textarea>
+		<div id='holder'>
+			<div id='board' style='border: 2px solid black;'>
+				Image Opacity: <input type='text' id='cardOpacity' value='.9'/><br/>
+				Number of Decks: <input type='text' id='numDecks' value='1'/><br/>
+				Card Width: <input type='text' id='cardWidth' value='73'/><br/>
+				Hand Width: <input type='text' id='handWidth' value='500'/><br/>
+				Card Height: <input type='text' id='cardHeight' value='102'/><br/>
+				Deck Height: <input type='text' id='deckHeight' value='204'/><br/>
+				Square Width (Magical X): <input type='text' id='magicalX' value='150'/><br/>
+				Square Height (Magical Y): <input type='text' id='magicalY' value='150'/>
+			</div>
+		</div>
+	</body>
+</html>
