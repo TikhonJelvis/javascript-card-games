@@ -8,10 +8,10 @@ var __DECK_HEIGHT = 204;
 var __MAGICAL_UNIT_X = 150;
 var __MAGICAL_UNIT_Y = 220;
 var __HAND_WIDTH = 500;
-function Board() {
+function Board(rootId) {
 
 	//PRIVATE INSTANCE VARIABLES
-	var root=$(__MY_ROOT);
+	var root=$(rootId);
 	root.addClass("board");
 	var decks = new Array();
 	var appendString = "cardHolder";
@@ -101,15 +101,17 @@ function Board() {
 				var holder = $("<div>");
 				cardHash[appendString+counter]=[deck,card];
 				holder.attr("id", appendString+(counter++));
-				holder.draggable({ 
-					revert : "invalid",
-					start : function(event, ui) {
-						holder.css("z-index","500");
-					},
-					stop : function(event, ui) {
-						holder.css("z-index","0");
-					}
-				});
+				if(card.isFaceUp()) {
+					holder.draggable({ 
+						revert : "invalid",
+						start : function(event, ui) {
+							holder.css("z-index","500");
+						},
+						stop : function(event, ui) {
+							holder.css("z-index","0");
+						}
+					});
+				}
 				holder.addClass("card");
 				holder.css("left", (offsetX * i)+"px");
 				holder.css("top", (offsetY * i)+"px");
@@ -137,10 +139,6 @@ function Board() {
 	};
 	
 }
-$(document).ready(function() {
-	gameBoard = new Board();
-	runTest();
-});
 function defaultType(deck) {
 	var isHand = isNaN(deck.getX());
 	//the offset for hands is proportional to the size of the hand
