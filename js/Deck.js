@@ -154,6 +154,10 @@ function Deck(cards) {
      */
     this.setY = function (newY) {
         y = newY;
+
+        this.fire({
+            type : "moved"
+        });
     };
 
     /**
