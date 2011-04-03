@@ -5,7 +5,10 @@
  */
 function Deck(cards) {
     cards = cards || [];// Stores all of the cards in the deck.
-    var x, y;
+    var x, y;// The position of this deck on the playing board.
+    var filter = function (card) {
+        return true;
+    };// Limits which cards can be added to the top of the deck.
 
     /**
      * Shuffles the deck.
@@ -83,6 +86,15 @@ function Deck(cards) {
      * Sets the y position of this deck in magical card units.
      */
     this.setY = function (newY) {
-        Y = newY;
+        y = newY;
+    };
+
+    /**
+     * Sets the filter to a new function. The filter function should take a card
+     * and return true if the given card can be added to the top and false
+     * otherwise.
+     */
+    this.setFilter = function (newFilter) {
+        filter = newFilter;
     };
 }
