@@ -61,6 +61,38 @@ function Deck(type, x, y, options,zOffset) {
     };
 
     /**
+     * Sorts the deck, first by suit then by rank (within suit).
+     */
+    this.sort = function () {
+        cards.sort(function (a, b) {
+            a = a.getRank();
+            b = b.getRank();
+            if (a == b) {
+                return 0;
+            } else if (a > b) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+
+        this.fire({
+            type : "shuffle",
+            card : null
+        });
+        
+        function valueOf(card) {
+            switch (card.getSuit()) {
+                case "s": return 400 + card.getRank() * 1;
+                case "h" : return 300 + card.getRank() * 1;
+                case "d" : return 200 + card.getRank() * 1;
+                case "c" : return 100 + card.getRank() * 1;
+                default : return 0;
+            }
+        }
+    };
+
+    /**
      * Moves the top n cards from this deck to the specified deck. If there are
      * less than n cards in this deck, deals as many as possible. This can
      * optionally deal the cards face down. You can deal even to a deck that
@@ -133,6 +165,7 @@ function Deck(type, x, y, options,zOffset) {
      * added and false otherwise.
      */
     this.addTop = function (card, nofilter) {
+        nofilter = true;
         if (nofilter||filter(card)) {
             cards.push(card);
 
