@@ -23,6 +23,25 @@ function Deck(cards) {
             newCards.push(index);
             cards.splice(index, 1);
         }
+
+        this.fire({
+            type : "shuffle",
+            card : null
+        });
+    };
+
+    /**
+     * Flips the top card of the deck. If the top card is face up, turns it face
+     * down; otherwise, turns it face up.
+     */
+    this.flipTopCard = function () {
+        var card = this.peek();
+        card.setFaceUp(!card.isFaceUp());
+
+        this.fire({
+            type : "flip",
+            card : card
+        });
     };
 
     /**
@@ -37,6 +56,11 @@ function Deck(cards) {
      */
     this.addTop = function (card) {
         cards.push(card);
+
+        this.fire({
+            type : "add",
+            card : card
+        });
     };
 
     /**
@@ -44,14 +68,25 @@ function Deck(cards) {
      */
     this.addBottom = function (card) {
         cards.unshift(card);
+        this.fire({
+            type : "add",
+            card : card
+        });
     };
 
     /**
      * Removes the top card of the deck and returns it; if the deck is empty,
      * returns undefined.
      */
-    this.removeTop = function (card) {
-        return cards.pop();
+    this.removeTop = function () {
+        var card = cards.pop();
+
+        this.fire({
+            type : "remove",
+            card : card
+        });
+        
+        return card;
     };
 
     /**
@@ -80,6 +115,11 @@ function Deck(cards) {
             cards.push(new Card(i, "d"));
             cards.push(new Card(i, "c"));
         }
+
+        this.fire({
+            type : "reset",
+            card : null
+        });
     };
 
     /**
@@ -103,6 +143,10 @@ function Deck(cards) {
      */
     this.setX = function (newX) {
         x = newX;
+
+        this.fire({
+           type : "moved"
+        });
     };
 
     /**
