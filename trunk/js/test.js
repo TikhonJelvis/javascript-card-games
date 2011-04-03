@@ -1,4 +1,5 @@
 function runTest() {
+	var gameBoard=new Board("Klondike");
 	var deck=new Deck(defaultType);
 	deck.setX(1);
 	deck.setY(1);
