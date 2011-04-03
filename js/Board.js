@@ -14,8 +14,8 @@ function Board(options) {
 	var __MAGICAL_UNIT_Y = options.magicalY || 220;
 	var __HAND_WIDTH = options.handWidth || 500;
 	var __MULTI_DRAG = (options.multiDrag===false) ? false : true;
-	var handHolder=$("#"+handHolder);
-	handHolder.addClass("bord");
+	var handHolder=$("#"+__HAND_HOLDER);
+	handHolder.addClass("board");
 	var root=$("#"+__MY_ROOT);
 	root.addClass("board");
 	var decks = new Array();
