@@ -56,7 +56,11 @@ function Solitaire() {
         endPiles[i] = new Deck(board.collapsedType, 3 + i, 0);
         board.addDeck(endPiles[i]);
         endPiles[i].setFilter((function (pile) {
-            return function (card) {
+            return function (card, deck, size) {
+                if (size > 1) {
+                    return false;
+                }
+                
                 var top = pile.peek();
 
                 if (top) {
