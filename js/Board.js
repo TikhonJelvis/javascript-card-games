@@ -1,22 +1,43 @@
-var __MY_ROOT = "#BoardRoot";
-var __DECK_OPACITY = .9;
-var __EXTENSION_TYPE = "gif";
-var __IMAGES_DIRECTORY = "images/";
-var __CARD_WIDTH = 73;
-var __CARD_HEIGHT = 102;
-var __DECK_HEIGHT = 204;
-var __MAGICAL_UNIT_X = 150;
-var __MAGICAL_UNIT_Y = 220;
-var __HAND_WIDTH = 500;
-function Board(rootId) {
+function Board(options) {
 
 	//PRIVATE INSTANCE VARIABLES
-	var root=$("#"+rootId);
+	options = options || {};
+	var __MY_ROOT = options.rootId || "#BoardRoot";
+	var __DECK_OPACITY = options.cardOpacity || .9;
+	var __EXTENSION_TYPE = options.extensionType || "gif";
+	var __IMAGES_DIRECTORY = options.imagesDirectory || "images/";
+	var __CARD_WIDTH = options.cardWidth || 73;
+	var __CARD_HEIGHT = options.cardHeight || 102;
+	var __DECK_HEIGHT = options.deckHeight || 204;
+	var __MAGICAL_UNIT_X = options.magicalX || 150;
+	var __MAGICAL_UNIT_Y = options.magicalY || 220;
+	var __HAND_WIDTH = options.handWidth || 500;
+	var root=$("#"+__MY_ROOT);
 	root.addClass("board");
 	var decks = new Array();
 	var appendString = "cardHolder";
 	var counter = 0;
 	var cardHash = {};
+	
+	//PUBLIC TYPE PROPERTIES
+	
+	this.defaultType=function(deck) {
+		var isHand = isNaN(deck.getX());
+		//the offset for hands is proportional to the size of the hand
+		var minOverlapX = __CARD_WIDTH / 2;
+		var maxOverlapX = ((__HAND_WIDTH - __CARD_WIDTH) / deck.getSize());
+		var overlapX = (minOverlapX < maxOverlapX) ? minOverlapX : maxOverlapX;
+		var offsetX = isHand ? overlapX : 0;
+		//the offset for decks is proportional to the size of the deck
+		var minOverlap = __CARD_HEIGHT / 5;
+		var maxOverlap = ((__DECK_HEIGHT - __CARD_HEIGHT) / deck.getSize());
+		var overlap = (minOverlap < maxOverlap) ? minOverlap : maxOverlap;
+		var offsetY = isHand ? 0 : overlap;
+		return [offsetX,offsetY];
+	};
+	this.collapsedType=function(deck) {
+		return [0,0];
+	};
 	
 	//PRIVATE FUNCTIONS
 	
@@ -141,21 +162,4 @@ function Board(rootId) {
 	this.getDecks = function() {
 		return decks;
 	};
-}
-function defaultType(deck) {
-	var isHand = isNaN(deck.getX());
-	//the offset for hands is proportional to the size of the hand
-	var minOverlapX = __CARD_WIDTH / 2;
-	var maxOverlapX = ((__HAND_WIDTH - __CARD_WIDTH) / deck.getSize());
-	var overlapX = (minOverlapX < maxOverlapX) ? minOverlapX : maxOverlapX;
-	var offsetX = isHand ? overlapX : 0;
-	//the offset for decks is proportional to the size of the deck
-	var minOverlap = __CARD_HEIGHT / 5;
-	var maxOverlap = ((__DECK_HEIGHT - __CARD_HEIGHT) / deck.getSize());
-	var overlap = (minOverlap < maxOverlap) ? minOverlap : maxOverlap;
-	var offsetY = isHand ? 0 : overlap;
-	return [offsetX,offsetY];
-}
-function collapsedType(deck) {
-	return [0,0];
 }
