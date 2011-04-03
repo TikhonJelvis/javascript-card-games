@@ -18,6 +18,8 @@ function Board(options) {
 	var appendString = "cardHolder";
 	var counter = 0;
 	var cardHash = {};
+	var maxX = 0;
+	var maxY = 0;
 	
 	//PUBLIC TYPE PROPERTIES
 	
@@ -121,6 +123,11 @@ function Board(options) {
 	function reDrawDeck(deckArr) {
 		var deck = deckArr[0];
 		var div = deckArr[1];
+		div.attr("onclick", deck.getAction());
+		maxX = deck.getX() > maxX ? deck.getX() : maxX;
+		maxY = deck.getY() > maxY ? deck.getY() : maxY;
+		root.css("width",((maxX+1)*__MAGICAL_UNIT_X)+"px");
+		root.css("height",((maxY+1)*__MAGICAL_UNIT_Y)+"px");
 		div.empty();
 		var isHand = isNaN(deck.getX());
 		if(!isHand) {
@@ -139,7 +146,7 @@ function Board(options) {
 				cardHash[appendString+counter]=[deck,card];
 				holder.attr("id", appendString+(counter++));
 				holder.css("z-index",i);
-				if(card.isFaceUp()) {
+				if(card.isFaceUp()&&deck.isDraggable()) {
 					holder.draggable({ 
 						revert : "invalid",
 						start : function(event, ui) {
