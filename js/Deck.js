@@ -53,6 +53,13 @@ function Deck(cards) {
     };
 
     /**
+     * Returns the top card of the deck without changing anything.
+     */
+    this.peek = function () {
+        return cards[cards.length - 1];
+    };
+
+    /**
      * Replaces all of the cards in the deck with the standard 52 cards.
      */
     this.initialize = function () {
