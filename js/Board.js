@@ -26,7 +26,9 @@ function Board(options) {
 	var maxY = 0;
 	
 	//PUBLIC TYPE PROPERTIES
-	
+	/**
+	* creates a vertical offset deck for decks (relative to the deck size and the deckHeight option) and a horizontal one for hands
+	*/
 	this.defaultType = function(deck) {
 		var isHand = isNaN(deck.getX());
 		//the offset for hands is proportional to the size of the hand
@@ -41,9 +43,15 @@ function Board(options) {
 		var offsetY = isHand ? 0 : overlap;
 		return [offsetX, offsetY];
 	};
+	/**
+	* creates a deck with no offset so that all cards are stacked directly on top of each other
+	*/
 	this.collapsedType = function(deck) {
 		return [0,0];
 	};
+	/**
+	* creates a deck that has horizontal offset relative to the size of the deck and the handWidth option
+	*/
 	this.horizontalType = function(deck) {
 		//the offset for hands is proportional to the size of the hand
 		var minOverlapX = __CARD_WIDTH / 2;
@@ -213,10 +221,16 @@ function Board(options) {
 	
 	//PUBLIC FUNCTIONS
 	
+	/**
+	*  Adds a deck to the Board, this adds a div that contains the view of the deck and specifies event listeners to update the deck
+	*/
 	this.addDeck = function (deck) {
 		return decks.push([deck, createDeck(deck)]);
 	};
 	
+	/**
+	*	returns an array of all decks attached to this board
+	*/
 	this.getDecks = function() {
 		return decks;
 	};
