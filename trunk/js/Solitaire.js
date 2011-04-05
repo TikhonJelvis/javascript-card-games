@@ -8,12 +8,14 @@ function Solitaire() {
     });
 
     var totalDeck = new Deck(board.collapsedType, 0, 0, {
-        filter : function () { return false; },
+        filter : function () { return false; }, //never let someone drag a card to the deck
         draggable : false
     });
     totalDeck.initialize(true);
     
-    var discard = new Deck(board.collapsedType, 1, 0);
+    var discard = new Deck(board.collapsedType, 1, 0, { 
+		filter : function(card) { return false; } //never let someone drag a card to the discard pile
+	});
     board.addDeck(discard);
     
     totalDeck.shuffle();
@@ -90,6 +92,4 @@ function Solitaire() {
         })(endPiles[i]));
     }
 }
-$(document).ready(function() {
-	new Solitaire();
-});
+$(document).ready(function() { new Solitaire(); });
